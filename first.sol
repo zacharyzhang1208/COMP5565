@@ -25,5 +25,5 @@ contract SimpleStorage {
     return storedData;
     }
 
-    receive() external payable { }
+    receive() external payable only_owner{ }
 }
