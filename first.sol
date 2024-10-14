@@ -9,6 +9,7 @@ contract SimpleStorage {
         owner = msg.sender;
     }
     function set(uint256 x) public {
+    require(msg.sender == owner,"you are not the owner");
     storedData = x;
     }
 
