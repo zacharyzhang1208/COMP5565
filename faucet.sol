@@ -25,6 +25,9 @@ contract Faucet {
         _to.transfer(_amount);
     }
 
+    //storage: The state variables in the contract are all storage by default, stored on the chain.
+    //memory: Parameters and temporary variables in functions are generally stored in memory, not on the chain. Especially if the return data type is variable length, the memory modifier must be added, such as: string, bytes, array and custom structure.
+    //calldata: Similar to memory, stored in memory, not on the chain. The difference from memory is that calldata variables cannot be modified (immutable)
     function getAllAddresses() public view returns (address[] memory){
         
     }
