@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.15;
 
-// Our first contract is a faucet contract Faucet {
+// Faucet contract
 contract Faucet {
 
     struct AccountInfo {
