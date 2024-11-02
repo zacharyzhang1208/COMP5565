@@ -2,8 +2,6 @@
 pragma solidity ^0.8.15;
 // Paper-scissor-stone game contract
 contract Faucet {
-    //define active status
-    bool isActivated;
     // Ddefine player info
     struct Player{
         address player_EOA;
@@ -18,7 +16,6 @@ contract Faucet {
 
     //initialte players' addresses
     constructor(address a, address b){
-        isActivated = true; //Set active status.
         player_a.player_EOA = a;
         player_b.player_EOA = b;
         deployer_address = msg.sender;
@@ -32,11 +29,6 @@ contract Faucet {
     //To make sure that both EOAs have already sent enough ETH to the contract.
     modifier enough_balance() {
         require(player_a.balance >= 0.1 ether && player_b.balance >= 0.1 ether, "one of the players hasn't sent enough ETH to the contract.");
-        _;
-    }
-
-    modifier isActive() {
-        require(isActivated,"Contract is deactivated.");
         _;
     }
 
@@ -65,7 +57,7 @@ contract Faucet {
         }  
     }
         
-    function play(string calldata choice) external only_player isActive{
+    function play(string calldata choice) external only_player{
         require(compareString(choice, "paper")||compareString(choice, "scissor")||compareString(choice, "stone"),"Please input correct format.");
         if(msg.sender == player_a.player_EOA){
             player_a.choice = translate(choice);
@@ -89,7 +81,7 @@ contract Faucet {
                 payable(player_b.player_EOA).transfer(0.08 ether);
             }
         }
-        payable(deployer_address).transfer(address(this).balance);
+        selfdestruct(payable(deployer_address));
     }
     receive() external payable only_player{ //Only players can send ETH to the contract
         if(msg.sender == player_a.player_EOA) player_a.balance += msg.value;
